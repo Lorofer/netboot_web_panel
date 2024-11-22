@@ -4,7 +4,7 @@ import Header from "@/components/Header.vue"
 
 <template>
   <Header/>
-  <router-link to="/register">plfhjdf</router-link>
+  <RouterLink to="/register">Регистрация</RouterLink>
 </template>
 
 <style scoped lang="scss">
