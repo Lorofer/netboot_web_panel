@@ -1,4 +1,4 @@
-@import "base.scss";
+@import "base";
 
 *,
 *::before,
@@ -8,7 +8,7 @@
   border: 0;
   padding: 0;
 
+  font-family: Inter;
   font-weight: normal;
-  font-family: Inter, serif;
   text-decoration: none;
 }

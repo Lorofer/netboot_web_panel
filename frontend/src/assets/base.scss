@@ -1,9 +1,12 @@
+@import "fonts";
+
 $light-blue: #A2D2FF;
 $dark-blue: #004280;
 $light-grey: #BCBCBC;
 $dark-grey: #2B2B2B;
 $orange: #FF865E;
 $beige: #FEF9EF;
+$violet: #4400ff;
 
 $separator-grey: $light-grey;
 
@@ -15,6 +18,7 @@ $bg-grey: $light-grey;
 $text-blue: $dark-blue;
 $text-grey: $dark-grey;
 $text-beige: $beige;
+$text-violet: $violet;
 
 @mixin separator {
   width: 100%;

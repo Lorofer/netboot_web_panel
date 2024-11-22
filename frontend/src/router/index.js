@@ -18,6 +18,12 @@ const router = createRouter({
             component: Register
         },
     ]
+});
+
+router.beforeEach((to, from) => {
+    if(to.name !== 'register'){
+        return { name: 'register' };
+    }
 })
 
 export default router
