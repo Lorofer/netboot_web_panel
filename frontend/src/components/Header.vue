@@ -18,7 +18,7 @@
   height: 80px;
   display: flex;
   justify-content: center;
-  border-bottom: 1px solid $bg-grey;
+  border-bottom: 1px solid $separator-grey;
 }
 
 .logo-container{
