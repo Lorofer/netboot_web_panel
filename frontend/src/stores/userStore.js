@@ -13,8 +13,14 @@ export const useUserStore = defineStore('user', () => {
         alert(login.value);
     }
 
+    async function signIn(){
+        isAuthorization.value = true;
+        alert(email.value + ' входи');
+    }
+
     return {
-        login, email, password, register,
+        login, email, password,
+        register, signIn,
         isAuthorization,
     };
 });

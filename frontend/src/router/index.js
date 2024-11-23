@@ -25,7 +25,7 @@ const router = createRouter({
 router.beforeEach((to, from) => {
     const userStore = useUserStore();
     if(!userStore.isAuthorization && to.name !== 'register'){
-        return { name: 'register' };
+        //return { name: 'register' };
     }
 });
 

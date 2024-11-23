@@ -1,10 +1,11 @@
 <script setup>
 import Header from "@/components/Header.vue"
+import Machines from "@/components/Machines.vue";
 </script>
 
 <template>
   <Header/>
-  <RouterLink to="/register">Регистрация</RouterLink>
+  <Machines/>
 </template>
 
 <style scoped lang="scss">

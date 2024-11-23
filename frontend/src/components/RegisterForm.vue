@@ -32,7 +32,7 @@ async function register(event){
 
 <template>
   <div class="register-container">
-    <form id="register-form" @submit="register" class="register-form">
+    <form @submit="register" class="register-form">
       <input
           placeholder="Логин"
           v-model="login"
@@ -61,11 +61,10 @@ async function register(event){
           type="password"
           required
       >
-      <p>Уже зарегистрированы?</p>
+      <p @click="$emit('open-popup')">Уже зарегистрированы?</p>
       <input
           value="Регистрация"
           type="submit"
-          form="register-form"
           class="register-button"
       >
     </form>
@@ -84,6 +83,14 @@ async function register(event){
 
   *:not(:first-child) {
     margin-top: 32px;
+  }
+}
+
+.register-form{
+  p{
+    text-decoration: underline;
+    color: $text-blue;
+    cursor: pointer;
   }
 }
 
