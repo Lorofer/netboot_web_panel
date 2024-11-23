@@ -1,5 +1,7 @@
 import { createWebHistory, createRouter } from 'vue-router';
 
+import {useUserStore} from "@/stores/userStore.js";
+
 import Main from '@/views/Main.vue';
 import Register from '@/views/Register.vue';
 
@@ -21,7 +23,8 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from) => {
-    if(to.name !== 'register'){
+    const userStore = useUserStore();
+    if(!userStore.isAuthorization && to.name !== 'register'){
         return { name: 'register' };
     }
 });

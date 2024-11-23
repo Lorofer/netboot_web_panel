@@ -1,17 +1,74 @@
 <script setup>
+import {ref} from "vue";
+import {useRouter} from "vue-router";
+const router = useRouter();
 
+import {useUserStore} from "@/stores/userStore.js";
+const userStore = useUserStore();
+
+const login = ref('');
+const email = ref('');
+const password = ref('');
+const passwordConfirm = ref('');
+
+async function register(event){
+  event.preventDefault();
+
+  if(password.value === passwordConfirm.value){
+    userStore.login = login.value;
+    userStore.email = email.value;
+    userStore.password = password.value;
+
+    try {
+      await userStore.register();
+      await router.push({path: '/'});
+    }
+    catch (error) {
+      console.error(error);
+    }
+  }
+}
 </script>
 
 <template>
   <div class="register-container">
-    <form id="register-form" class="register-form">
-      <input class="register-form-input" placeholder="Логин" type="text">
-      <input class="register-form-input" placeholder="Email" type="text">
-      <input class="register-form-input" placeholder="Пароль" type="password">
-      <input class="register-form-input" placeholder="Подтверждение пароля" type="password">
+    <form id="register-form" @submit="register" class="register-form">
+      <input
+          placeholder="Логин"
+          v-model="login"
+          class="register-form-input"
+          type="text"
+          required
+      >
+      <input
+          placeholder="Email"
+          v-model="email"
+          class="register-form-input"
+          type="email"
+          required
+      >
+      <input
+          placeholder="Пароль"
+          v-model="password"
+          class="register-form-input"
+          type="password"
+          required
+      >
+      <input
+          placeholder="Подтверждение пароля"
+          v-model="passwordConfirm"
+          class="register-form-input"
+          type="password"
+          required
+      >
+      <p>Уже зарегистрированы?</p>
+      <input
+          value="Регистрация"
+          type="submit"
+          form="register-form"
+          class="register-button"
+      >
     </form>
-    <p>Уже зарегистрированы?</p>
-    <button class="register-button" type="button" form="register-form">Регистрация</button>
   </div>
 </template>
 
