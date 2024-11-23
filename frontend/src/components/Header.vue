@@ -36,7 +36,8 @@
     font-weight: bold;
     color: $text-violet;
     font-size: 42px;
-    padding-bottom: 2px;
+    padding-top: 8px;
+    line-height: 42px;
   }
 }
 </style>
