@@ -6,9 +6,7 @@ import SignInPopup from "@/components/SignInPopup.vue";
 import {useTemplateRef} from "vue";
 
 const popup = useTemplateRef('sign-up-popup');
-
 function openSignUpPopup(){
-  //alert(123);
   popup.value.open();
 }
 </script>

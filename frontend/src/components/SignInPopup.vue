@@ -1,6 +1,8 @@
 <script setup>
 import {ref} from "vue";
 import { useRouter } from 'vue-router'
+const router = useRouter();
+
 import Backdrop from "@/components/Backdrop.vue";
 
 import {useUserStore} from "@/stores/userStore";
@@ -22,16 +24,19 @@ async function close() {
   successful.value = true;
 }
 
-const email = ref('');
+const login = ref('');
 const password = ref('');
 
-async function signIn(){
-  userStore.email = email.value;
+async function signIn(event){
+  event.preventDefault();
+
+  userStore.login = login.value;
   userStore.password = password.value;
 
   try{
     await userStore.signIn();
     await close();
+    await router.push({path: '/'});
   }
   catch(error){
     console.error(error);
@@ -45,9 +50,8 @@ async function signIn(){
     <div :class="[{'closing': startClosing}, 'popup']">
       <form @submit="signIn">
         <input
-            placeholder="Email"
-            v-model.trim="email"
-            type="email"
+            placeholder="Логин"
+            v-model.trim="login"
             @input="successful = true"
             :class="[{'error': !successful}, 'sign-in-input']"
         >

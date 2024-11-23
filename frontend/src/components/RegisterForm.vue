@@ -11,22 +11,26 @@ const email = ref('');
 const password = ref('');
 const passwordConfirm = ref('');
 
+
+
 async function register(event){
   event.preventDefault();
 
-  if(password.value === passwordConfirm.value){
-    userStore.login = login.value;
-    userStore.email = email.value;
-    userStore.password = password.value;
+  userStore.login = login.value;
+  userStore.email = email.value;
+  userStore.password = password.value;
 
-    try {
-      await userStore.register();
-      await router.push({path: '/'});
-    }
-    catch (error) {
-      console.error(error);
-    }
+  try {
+    await userStore.register();
+    await router.push({path: '/'});
   }
+  catch (error) {
+    console.error(error);
+  }
+
+  // if(password.value === passwordConfirm.value){
+  //
+  // }
 }
 </script>
 
@@ -59,7 +63,6 @@ async function register(event){
           v-model="passwordConfirm"
           class="register-form-input"
           type="password"
-          required
       >
       <p @click="$emit('open-popup')">Уже зарегистрированы?</p>
       <input
