@@ -96,7 +96,6 @@ const resMachines = computed(() => machinesStore.reservedMachinesId);
       font-size: 15px;
     }
     .machines-list-btn.available{
-      content: 'Забронировать';
       background-color: $bg-blue;
       color: $text-blue;
       cursor: pointer;
@@ -107,7 +106,7 @@ const resMachines = computed(() => machinesStore.reservedMachinesId);
     }
     .machines-list-btn.reserved{
       background-color: #aee3a6;
-      color: #10260c;
+      color: #183712;
       cursor: pointer;
     }
   }

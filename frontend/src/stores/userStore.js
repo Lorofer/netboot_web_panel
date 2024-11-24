@@ -1,8 +1,10 @@
 import { defineStore } from 'pinia'
+import {useRouter} from "vue-router";
 import { useApiStore } from "@/stores/apiStore.js";
 import {ref} from "vue";
 
 export const useUserStore = defineStore('user', () => {
+    const router = useRouter();
     const apiStore = useApiStore();
 
     const isAuthorization = ref(true);
@@ -10,6 +12,12 @@ export const useUserStore = defineStore('user', () => {
     const login = ref('');
     const email = ref('');
     const password = ref('');
+
+    async function signOut(){
+        localStorage.removeItem("token");
+        isAuthorization.value = false;
+        await router.push({path: '/register'});
+    }
 
     async function signIn(){
         let resp = await fetch(`${apiStore.api}auth/token/login/`, {
@@ -47,7 +55,7 @@ export const useUserStore = defineStore('user', () => {
 
     return {
         login, email, password,
-        register, signIn,
+        register, signIn, signOut,
         isAuthorization,
     };
 });

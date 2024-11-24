@@ -1,5 +1,5 @@
 <script setup>
-import Header from "@/components/Header.vue";
+import RegisterHeader from "@/components/RegisterHeader.vue";
 import RegisterForm from "@/components/RegisterForm.vue";
 import SignInPopup from "@/components/SignInPopup.vue";
 
@@ -12,7 +12,7 @@ function openSignUpPopup(){
 </script>
 
 <template>
-  <Header/>
+  <RegisterHeader/>
   <main>
     <SignInPopup ref="sign-up-popup"/>
     <RegisterForm @open-popup="openSignUpPopup"/>

@@ -16,21 +16,19 @@ const passwordConfirm = ref('');
 async function register(event){
   event.preventDefault();
 
-  userStore.login = login.value;
-  userStore.email = email.value;
-  userStore.password = password.value;
+  if(password.value === passwordConfirm.value){
+    userStore.login = login.value;
+    userStore.email = email.value;
+    userStore.password = password.value;
 
-  try {
-    await userStore.register();
-    await router.push({path: '/'});
+    try {
+      await userStore.register();
+      await router.push({path: '/'});
+    }
+    catch (error) {
+      console.error(error);
+    }
   }
-  catch (error) {
-    console.error(error);
-  }
-
-  // if(password.value === passwordConfirm.value){
-  //
-  // }
 }
 </script>
 

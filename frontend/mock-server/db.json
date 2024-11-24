@@ -2,8 +2,8 @@
   "reservedStands": [
     {
       "id": 1,
-      "beginning": "12:34",
-      "end": "12:45"
+      "beginning": "12:30",
+      "end": "22:30"
     }
   ]
 }

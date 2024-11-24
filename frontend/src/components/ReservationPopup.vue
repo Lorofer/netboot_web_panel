@@ -1,10 +1,10 @@
 <script setup>
 import {ref} from "vue";
-import { useRouter } from 'vue-router'
-const router = useRouter();
 
 import { useApiStore } from "@/stores/apiStore.js";
 const apiStore = useApiStore();
+import { useMachinesStore } from "@/stores/machinesStore.js";
+const machinesStore = useMachinesStore();
 
 import Backdrop from "@/components/Backdrop.vue";
 
@@ -34,7 +34,7 @@ async function reservation(event){
   event.preventDefault();
 
   try{
-    await fetch(`${apiStore.mockApi}reservedStands`, {
+    let resp = await fetch(`${apiStore.mockApi}reservedStands`, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -45,6 +45,7 @@ async function reservation(event){
         "end": end.value,
       }),
     });
+    machinesStore.reservedMachines.push(await resp.json());
     await close();
   }
   catch(error){
