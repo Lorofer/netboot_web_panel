@@ -8,5 +8,5 @@ class CustomUserAdmin(admin.ModelAdmin):
 
 
 @admin.register(Stand)
-class CustomUserAdmin(admin.ModelAdmin):
-    list_display = ["id", "ip", "status", "booking_time"]
+class StandAdmin(admin.ModelAdmin):
+    list_display = ["id", "code", "ip", "status", "booking_time"]

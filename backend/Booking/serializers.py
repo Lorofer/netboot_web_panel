@@ -12,4 +12,4 @@ class CustomUserSerializer(serializers.ModelSerializer):
 class StandSerializer(serializers.ModelSerializer):
     class Meta:
         model = Stand
-        fields = ["id", "status"]
+        fields = ["id", "code", "status"]

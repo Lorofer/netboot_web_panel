@@ -6,6 +6,6 @@ from .serializers import StandSerializer
 
 
 class MainView(ModelViewSet):
-    queryset = Stand.objects.raw('''SELECT id, status FROM "Booking_stand";''')
+    queryset = Stand.objects.raw('''SELECT id, code, status FROM "Booking_stand";''')
     serializer_class = StandSerializer
     authentication_classes = (TokenAuthentication,)
