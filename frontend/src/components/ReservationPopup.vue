@@ -3,16 +3,19 @@ import {ref} from "vue";
 import { useRouter } from 'vue-router'
 const router = useRouter();
 
-import Backdrop from "@/components/Backdrop.vue";
+import { useApiStore } from "@/stores/apiStore.js";
+const apiStore = useApiStore();
 
-import {useUserStore} from "@/stores/userStore";
-const userStore = useUserStore();
+import Backdrop from "@/components/Backdrop.vue";
 
 const startClosing = ref(false);
 const isOpen = ref(false);
 const successful = ref(true);
 
-function open() {
+const machineId = ref('');
+
+function open(id) {
+  machineId.value = id;
   isOpen.value = true;
 }
 defineExpose({open});
@@ -24,19 +27,25 @@ async function close() {
   successful.value = true;
 }
 
-const login = ref('');
-const password = ref('');
+const beginning = ref('');
+const end = ref('');
 
-async function signIn(event){
+async function reservation(event){
   event.preventDefault();
 
-  userStore.login = login.value;
-  userStore.password = password.value;
-
   try{
-    await userStore.signIn();
+    await fetch(`${apiStore.mockApi}reservedStands`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: 'POST',
+      body: JSON.stringify({
+        "id": machineId.value,
+        "beginning": beginning.value,
+        "end": end.value,
+      }),
+    });
     await close();
-    await router.push({path: '/'});
   }
   catch(error){
     console.error(error);
@@ -48,23 +57,27 @@ async function signIn(event){
   <Backdrop v-if="isOpen" @close-popup="close"/>
   <div class="popup-container" v-if="isOpen">
     <div :class="[{'closing': startClosing}, 'popup']">
-      <form class="book-container" @submit="signIn">
+      <form class="reservation-container" @submit="reservation">
         <div>
-          <label for="beginning-of-the-lease">Начало аренды</label>
+          <label for="beginning-of-the-reservation">Начало аренды</label>
           <input
-              id="beginning-of-the-lease"
+              v-model="beginning"
+              id="beginning-of-the-reservation"
+              class="reservation-input"
               type="time"
               @input="successful = true"
-              class="book-input"
+              required
           >
         </div>
         <div>
-          <label for="end-of-the-lease">Окончание аренды</label>
+          <label for="end-of-the-reservation">Окончание аренды</label>
           <input
-              id="end-of-the-lease"
+              v-model="end"
+              id="end-of-the-reservation"
+              class="reservation-input"
               type="time"
               @input="successful = true"
-              class="book-input"
+              required
           >
         </div>
         <span v-if="successful" class="separator"></span>
@@ -122,7 +135,7 @@ async function signIn(event){
   animation: open 0.35s ease-in-out;
 }
 
-.book-container > *:not(:first-child) {
+.reservation-container > *:not(:first-child) {
   margin-top: 40px;
 }
 
@@ -134,7 +147,7 @@ async function signIn(event){
 label{
   font-size: 15px;
 }
-.book-input {
+.reservation-input {
   @include input;
   padding: 0 12px;
   margin-top: 6px;

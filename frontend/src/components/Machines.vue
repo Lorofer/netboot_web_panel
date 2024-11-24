@@ -1,14 +1,14 @@
 <script setup>
 import {useMachinesStore} from "@/stores/machinesStore.js";
-import {onMounted} from "vue";
+import {computed, onMounted} from "vue";
 const machinesStore = useMachinesStore();
 
-onMounted(() => machinesStore.getMachines())
+onMounted(() => {
+  machinesStore.getMachines();
+  machinesStore.getReservedMachines();
+});
 
-const emit = defineEmits(['open-popup'])
-function book(){
-  emit('open-popup');
-}
+const resMachines = computed(() => machinesStore.reservedMachinesId);
 </script>
 
 <template>
@@ -20,13 +20,29 @@ function book(){
     <li class="machines-list-item" v-for="machine in machinesStore.machines">
       <p class="machines-list-nickname">№{{ machine['code'] }}</p>
       <button
-          :class="[
-              'machines-list-btn',
-              machine['status'] ? 'available' : 'occupied',
-          ]"
-          v-on="machine['status'] ? {'click': book} : {}"
+          v-if="resMachines.includes(machine['id'])"
+          class="machines-list-btn reserved"
+          :id="machine['id']"
+          @click="$emit('open-edit-popup', machine['id'])"
       >
-        {{ machine['status'] ? 'Забронировать' : 'Занят' }}
+        Бронь на {{ machinesStore.reservedMachines.find(obj => obj.id === machine['id'])["beginning"] }}
+      </button>
+
+      <button
+          v-else-if="machine['status']"
+          class="machines-list-btn available"
+          :id="machine['id']"
+          @click="$emit('open-reservation-popup', machine['id'])"
+      >
+        Забронировать
+      </button>
+
+      <button
+          v-else
+          class="machines-list-btn occupied"
+          :id="machine['id']"
+      >
+        Занят
       </button>
     </li>
   </ul>
@@ -63,8 +79,8 @@ function book(){
 }
 .machines-list {
   padding: 0 26px;
-  margin: 32px 0;
-  max-height: calc(100% - 98px);
+  margin: 32px 0 0;
+  max-height: calc(100% - 64px);
   overflow-y: scroll;
 
   .machines-list-item {
@@ -80,6 +96,7 @@ function book(){
       font-size: 15px;
     }
     .machines-list-btn.available{
+      content: 'Забронировать';
       background-color: $bg-blue;
       color: $text-blue;
       cursor: pointer;
@@ -87,6 +104,11 @@ function book(){
     .machines-list-btn.occupied{
       background-color: $bg-grey;
       color: $text-grey;
+    }
+    .machines-list-btn.reserved{
+      background-color: #aee3a6;
+      color: #10260c;
+      cursor: pointer;
     }
   }
   .machines-list-item:not(:first-child) {

@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { useApiStore } from "@/stores/apiStore.js";
 import { useUserStore } from "@/stores/userStore.js";
-import {ref} from "vue";
+import {computed, ref} from "vue";
 
 import {useRouter} from "vue-router";
 
@@ -11,6 +11,8 @@ export const useMachinesStore = defineStore('machines', () => {
     const router = useRouter();
 
     const machines = ref([]);
+    const reservedMachines = ref([]);
+    const reservedMachinesId = computed(() => reservedMachines.value.map(obj => obj['id']));
 
     async function getMachines(){
         try{
@@ -31,5 +33,22 @@ export const useMachinesStore = defineStore('machines', () => {
         }
     }
 
-    return { machines, getMachines };
+    async function getReservedMachines(){
+        try{
+            let resp = await fetch(`${apiStore.mockApi}reservedStands`);
+            if(!resp.ok){
+                throw "not ok";
+            }
+            reservedMachines.value = await resp.json();
+        }
+        catch(error){
+            userStore.isAuthorization = false;
+            await router.push({path: '/register'});
+        }
+    }
+
+    return {
+        machines, reservedMachines, reservedMachinesId,
+        getMachines, getReservedMachines
+    };
 });
