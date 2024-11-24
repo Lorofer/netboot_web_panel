@@ -1,0 +1,9 @@
+{
+  "reservedStands": [
+    {
+      "id": 1,
+      "beginning": "12:30",
+      "end": "22:30"
+    }
+  ]
+}
